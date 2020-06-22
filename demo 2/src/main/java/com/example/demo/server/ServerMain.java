@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class ServerMain {
-
+    private List<String> lines =  new ArrayList<>();
     public static String sendCommand(String[] command) {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         Process client;
@@ -42,23 +42,28 @@ public class ServerMain {
     }
 
 
-    public static List<Integer> evaluateOutput(String output) throws IOException, ParseException {
+    public static List<Integer> evaluateOutput(String output , String stroy) throws IOException, ParseException {
         List<Integer> list = new ArrayList<>();
         CreateJson createJson = new CreateJson();
         createJson.CreatingFile("ans" , output);
         YapExtractAns answers = new FirstPerson("ans.json");
         YapExtractAns answers1 = new QWwords("ans.json");
         YapExtractAns answers2 = new NegWords("ans.json");
+        TextualExtractAns answers3 = new TextualExtractAns(stroy);
+
         int numOfFirst = answers.parserAns();
         list.add(numOfFirst);
         int numOfQWwords = answers1.parserAns();
         list.add(numOfQWwords);
         int numOfNegWord = answers2.parserAns();
         list.add(numOfNegWord);
+        int numOfwords = answers3.NumOfWords();
+        list.add(numOfwords);
         return  list;
     }
 
     public Map< String,List<Integer>> processData(List<String> lines) throws IOException, ParseException {
+
         Map< String,List<Integer>> evlAns = new HashMap<>();
         String[] command = {"curl", "-s", "-X", "GET", "-H", "Content-Type: application/json", "-d", "",
                 "http://localhost:8000/yap/heb/joint", "|", "jq", "."};
@@ -78,7 +83,7 @@ public class ServerMain {
             System.out.println("current line is:" + line);
             command[7] = "{\"text\": \""+line+"  \"}";
             output = sendCommand(command);
-            numbers = evaluateOutput(output);
+            numbers = evaluateOutput(output , line);
             evlAns.put(line, numbers);
         }
         return evlAns;

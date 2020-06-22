@@ -6,18 +6,16 @@ import java.util.Map;
 
 public class TextualExtractAns {
 
-    private List<String> sentences = new ArrayList<String>();
+    private String sentences;
 
 
-    public TextualExtractAns(List<String> sentences) {
+    public TextualExtractAns(String sentences) {
         this.sentences = sentences;
     }
 
     public int NumOfWords() {
         int num = 0;
-        for (String sentence : sentences ){
-            num +=sentence.split(" ").length;
-        }
+        num = sentences.split(" ").length;
         return num;
     }
 

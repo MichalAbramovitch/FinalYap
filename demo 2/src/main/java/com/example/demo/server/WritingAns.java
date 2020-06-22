@@ -56,7 +56,6 @@ public class WritingAns {
                     cell.setCellValue((String) obj);
                 }
                 else if (obj instanceof List) {
-                    System.out.println("hh");
                     for (Object ans : (List)obj ){
                         Cell cell = row.createCell(cellnum++);
                         cell.setCellValue((Integer)ans);
