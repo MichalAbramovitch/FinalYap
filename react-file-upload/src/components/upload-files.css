@@ -1,0 +1,13 @@
+.upload-file-wrapper{
+	display: flex;
+	flex-direction: column;
+}
+.action-wrapper{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 10px 0px;
+}
+.btn-success{
+	height: 40px;
+}

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import UploadService from "../services/upload-files.service";
+import LoadingSpinner from './LoadingSpinner';
+import "./upload-files.css";
 
 export default class UploadFiles extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ export default class UploadFiles extends Component {
 		progress: 0,
 		message: "",
 		fileInfos: [],
+		loading: false
 	  };
 	
   	}
@@ -25,7 +28,8 @@ export default class UploadFiles extends Component {
 
 		this.setState({
 		progress: 0,
-		currentFile: currentFile
+		currentFile: currentFile,
+		loading : true
 		});
 
 		UploadService.upload(currentFile, (event) => {
@@ -42,6 +46,7 @@ export default class UploadFiles extends Component {
 		.then((files) => {
 			this.setState({
 			fileInfos: files.data,
+			loading :false
 			});
 		})
 		.catch(() => {
@@ -71,10 +76,11 @@ export default class UploadFiles extends Component {
 		  progress,
 		  message,
 		  fileInfos,
+		  loading
 		} = this.state;
 	
 		return (
-		  <div>
+		  <div className="upload-file-wrapper">
 			{currentFile && (
 			  <div className="progress">
 				<div
@@ -89,22 +95,20 @@ export default class UploadFiles extends Component {
 				</div>
 			  </div>
 			)}
-	
-			<label className="btn btn-default">
-			  <input type="file" onChange={this.selectFile} />
-			</label>
-	
-			<button className="btn btn-success"
-			  disabled={!selectedFiles}
-			  onClick={this.upload}
-			>
-			  Upload
-			</button>
-	
-			<div className="alert alert-light" role="alert">
-			  {message}
+			<div className="action-wrapper">
+				<input type="file" onChange={this.selectFile} />
+		
+				<button className="btn btn-success"
+				disabled={!selectedFiles}
+				onClick={this.upload}
+				>
+				Upload
+				</button>
 			</div>
 	
+			
+
+			<div className='process-data'> {loading? <LoadingSpinner /> :fileInfos > 0 && 'File is ready'}</div>
 			<div className="card">
 			  <div className="card-header">List of Files</div>
 			  <ul className="list-group list-group-flush">
