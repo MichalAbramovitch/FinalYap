@@ -17,7 +17,7 @@ public class WritingAns {
         //Blank workbook
 
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String[] headers = {"Stories","First Person", "Question words", "Negative words", "Number of Words"};
+        String[] headers = {"Stories","First Person-singular","First Person-plural","Second Person-singular","Second Person-plural","Third Person-singular","Third Person-plural", "Question words", "Negative words", "Past words", "Beinoni words", "Future words",  "Imperative words", "Number of Words"};
         //Create a blank sheet
         XSSFSheet sheet = workbook.createSheet("ans");
 
@@ -56,6 +56,7 @@ public class WritingAns {
                     cell.setCellValue((String) obj);
                 }
                 else if (obj instanceof List) {
+                    System.out.println("hh");
                     for (Object ans : (List)obj ){
                         Cell cell = row.createCell(cellnum++);
                         cell.setCellValue((Integer)ans);
