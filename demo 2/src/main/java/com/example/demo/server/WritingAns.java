@@ -17,7 +17,7 @@ public class WritingAns {
         //Blank workbook
 
         XSSFWorkbook workbook = new XSSFWorkbook();
-
+        String[] headers = {"Stories","First Person", "Question words", "Negative words", "Number of Words"};
         //Create a blank sheet
         XSSFSheet sheet = workbook.createSheet("ans");
 
@@ -27,7 +27,7 @@ public class WritingAns {
         for (String i : evlAns.keySet()) {
             List<Object> list = new ArrayList<>();
             list.add(i);
-            list.add(evlAns.get(i).toString());
+            list.add(evlAns.get(i));
             System.out.println(list);
             data.put(k, list);
             k++;
@@ -35,17 +35,24 @@ public class WritingAns {
         //Iterate over data and write to sheet
         Set<Integer> keyset = data.keySet();
         int rownum = 0;
+        int cellnum = 0;
+        Row rowHeader = sheet.createRow(rownum++);
+        for (String head: headers){
+            Cell cellHeader = rowHeader.createCell(cellnum++);
+            cellHeader.setCellValue(head);
+        }
+
         for (Integer key : keyset)
         {
             Row row = sheet.createRow(rownum++);
             List<Object> objArr = data.get(key);
             System.out.println(objArr);
-            int cellnum = 0;
+            cellnum = 0;
             for (Object obj : objArr) {
                 // this line creates a cell in the next column of that row
                 if (obj instanceof String) {
                     System.out.println(obj);
-                    Cell cell = row.createCell(cellnum++);
+                    Cell cell= row.createCell(cellnum++);
                     cell.setCellValue((String) obj);
                 }
                 else if (obj instanceof List) {
